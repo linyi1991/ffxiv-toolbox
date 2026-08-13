@@ -20,6 +20,7 @@ import { useAlarmTrigger } from '../hooks/useAlarmTrigger';
 import { useCollectionState } from '../hooks/useCollectionState';
 import { useAlarm } from '../hooks/useAlarm';
 import { TYPE_TO_NODE_INDEX } from '../selectors';
+import { ProgressImportButton } from './ProgressImportButton';
 
 const VIEW_MODE_CONFIG = [
   { id: 'level', labelKey: 'view_level', icon: '📊' },
@@ -57,6 +58,7 @@ export const GatheringLogPage: React.FC = () => {
     toggleComplete,
     toggleBookmark,
     toggleBatch,
+    importCompletedItems,
     bookmarkAll,
     createGroup,
     updateGroup,
@@ -107,6 +109,13 @@ export const GatheringLogPage: React.FC = () => {
       logging: getTypeItemIds('logging'),
       harvesting: getTypeItemIds('harvesting'),
     };
+  }, [data]);
+
+  const allKnownItemIds = useMemo(() => {
+    const ids = new Set<number>();
+    if (!data) return ids;
+    data.pages.flat().forEach(page => page.items.forEach(item => ids.add(item.itemId)));
+    return ids;
   }, [data]);
 
   // Progress numbers — recompute only when completion state (or data) changes
@@ -201,6 +210,12 @@ export const GatheringLogPage: React.FC = () => {
 
     setHeaderActions(
       <div className="flex items-center gap-1">
+        <ProgressImportButton
+          label={i18n.pages.gathering_log.import_progress}
+          knownItemIds={allKnownItemIds}
+          completedItems={completedItems}
+          onImport={importCompletedItems}
+        />
         <button
           onClick={() => setHideCompleted(p => !p)}
           className={`flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-bold transition-colors whitespace-nowrap ${
@@ -243,7 +258,7 @@ export const GatheringLogPage: React.FC = () => {
     );
 
     return () => setHeaderActions(null);
-  }, [data, hideCompleted, showBookmarks, i18n, setHeaderActions]);
+  }, [data, hideCompleted, showBookmarks, i18n, setHeaderActions, allKnownItemIds, completedItems, importCompletedItems]);
 
   const pages = data ? data.pages[TYPE_TO_NODE_INDEX[currentType]] || [] : [];
 

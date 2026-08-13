@@ -277,6 +277,16 @@ export function useCollectionState() {
     });
   }, []);
 
+  const importCompletedItems = useCallback((ids: number[], mode: 'merge' | 'replace' = 'merge') => {
+    setCompletedItems(previous => {
+      const next = mode === 'replace' ? new Set<number>() : new Set(previous);
+      ids.forEach(id => next.add(id));
+      persistSet(PROGRESS_STORAGE_KEY, next);
+      emitCollectionUpdate();
+      return next;
+    });
+  }, []);
+
   const bookmarkAll = useCallback((ids: number[], targetGroupId?: string | null) => {
     updateBookmarkState(previous => ids.reduce(
       (state, itemId) => hasBookmarkedItem(state, itemId) ? state : addBookmarkedItem(state, itemId, targetGroupId),
@@ -346,6 +356,7 @@ export function useCollectionState() {
     toggleComplete,
     toggleBookmark,
     toggleBatch,
+    importCompletedItems,
     bookmarkAll,
     createGroup,
     updateGroup,

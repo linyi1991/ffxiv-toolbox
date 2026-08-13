@@ -28,6 +28,7 @@ export interface Translation {
       logging: string;
       harvesting: string;
       progress: string;
+      import_progress: string;
       hide_completed: string;
       show_bookmarks: string;
       jump_to: string;
@@ -196,6 +197,7 @@ export const translations: Record<LangCode, Translation> = {
         logging: '採伐',
         harvesting: '割草',
         progress: '目前進度',
+        import_progress: '匯入遊戲進度',
         hide_completed: '隱藏已完成',
         show_bookmarks: '僅顯示書籤',
         jump_to: '等級跳轉',
@@ -353,6 +355,7 @@ export const translations: Record<LangCode, Translation> = {
         logging: 'Logging',
         harvesting: 'Harvesting',
         progress: 'Progress',
+        import_progress: 'Import Progress',
         hide_completed: 'Hide Completed',
         show_bookmarks: 'Bookmarks',
         jump_to: 'Jump to Level',
@@ -508,6 +511,7 @@ export const translations: Record<LangCode, Translation> = {
         logging: '伐採',
         harvesting: '草刈',
         progress: '進捗',
+        import_progress: '進捗をインポート',
         hide_completed: '完了を隠す',
         show_bookmarks: 'ブックマークのみ',
         jump_to: 'レベルジャンプ',
@@ -663,6 +667,7 @@ export const translations: Record<LangCode, Translation> = {
         logging: '伐木',
         harvesting: '割草',
         progress: '进度',
+        import_progress: '导入游戏进度',
         hide_completed: '隐藏已完成',
         show_bookmarks: '仅显示书签',
         jump_to: '等级跳转',
